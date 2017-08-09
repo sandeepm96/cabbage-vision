@@ -1,0 +1,21 @@
+{
+  "name": "vision",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vision.js",
+  "dependencies": {
+    "@google-cloud/vision": "^0.12.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "http": "0.0.0",
+    "node-webcam": "^0.4.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
