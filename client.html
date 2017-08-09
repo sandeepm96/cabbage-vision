@@ -5,6 +5,7 @@
 <meta content="stuff, to, help, search, engines, not" name="keywords">
 <meta content="What this page is about." name="description">
 <meta content="Display Webcam Stream" name="title">
+<script type="text/javascript" src = '/jquery.js'></script>
 <title>Display Webcam Stream</title>
 
 <style>
@@ -19,6 +20,11 @@
     height: 375px;
     background-color: #666;
 }
+#result {
+  font-size: 48px;
+  text-align: center;
+  margin-top: 10%;
+}
 </style>
 </head>
 
@@ -27,15 +33,13 @@
     <video autoplay="true" id="videoElement">
 
     </video>
+    <div id="result">
+      No result
+    </div>
 </div>
-<input id="b" type="button" disabled="true" value="Take Picture"></input>
-<canvas id="c"></canvas>
+
 <script>
 var video = document.querySelector("#videoElement");
-var canvas = document.getElementById("c");
-var button = document.getElementById("b");
-canvas.setAttribute("style","width:"+video.clientWidth+"px");
-canvas.setAttribute("style","height:"+video.clientHeight+"px");
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 if (navigator.getUserMedia) {
     navigator.getUserMedia({video: true}, handleVideo, videoError);
@@ -43,15 +47,26 @@ if (navigator.getUserMedia) {
 
 function handleVideo(stream) {
     video.src = window.URL.createObjectURL(stream);
-    button.disabled = false;
-    button.onclick = function() {
-
-      canvas.getContext("2d").drawImage(video,10,10);
-      // var img = canvas.toDataURL("image/png");
-      // document.write('<img src="'+img+'"/>');
-    };
 }
 
+function sendRequest() {
+  var ele = document.getElementById('result');
+  console.log("Sending request");
+  console.log(ele);
+  $.ajax({
+    method : 'GET',
+    url : '/detect',
+    success : function(data) {
+      console.log(data);
+      if(data.score == 0) {
+        ele.innerHTML = "No Cabbage Found";
+      }else {
+        ele.innerHTML = "Cabbage found with an accuracy" + (data.score*100) + "%";
+      }
+    }
+  })
+}
+setInterval(sendRequest,5000);
 function videoError(e) {
     // do something
 }

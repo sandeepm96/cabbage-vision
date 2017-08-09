@@ -31,7 +31,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client.html'));
 });
-
+app.get('/jquery.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'jquery.js'));
+});
 app.get('/detect', (req, res) => {
   Webcam.capture( "test_picture", function( err, data ) {
     var fileName = './test_picture.jpg';
